@@ -12,3 +12,9 @@ Part 1: Fairly straightforward modulo arithmetic. I needed to be careful about s
 
 I accounted for that I got the right answer.
 
+
+
+Part 2: Well this took a little bit of time for me to get right. First time I've had trouble with a puzzle on day one :). I had to be careful about 
+
+the edge cases (for example, if we start from 0 and move left less than 100 times, we never pass 0).
+

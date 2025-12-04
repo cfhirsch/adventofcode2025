@@ -1,4 +1,5 @@
-﻿using Adventofcode2025.Utilities;
+﻿using System.ComponentModel.Design.Serialization;
+using Adventofcode2025.Utilities;
 
 namespace AdventOfCode2025.Solutions
 {
@@ -38,7 +39,57 @@ namespace AdventOfCode2025.Solutions
 
         public string SolvePartTwo(bool test)
         {
-            throw new NotImplementedException();
+            int dial = 50;
+            int numZeroes = 0;
+            int newDial = 50;
+
+            foreach (string line in PuzzleReader.GetPuzzleInput(1, test))
+            {
+                char dir = line[0];
+                int rotations = Int32.Parse(line.Substring(1));
+
+                // Each rotation of 100 clicks passes zero.
+                numZeroes += rotations / 100;
+                rotations = rotations % 100;
+
+                if (dir == 'L')
+                {
+                    newDial = dial - rotations;
+                    
+                    // Do we cross zero in the final set of clicks?
+                    if (newDial < 0)
+                    {
+                        newDial += 100;
+
+                        if (dial != 0 && newDial != 0)
+                        {
+                            numZeroes++;
+                        }
+                    }
+                }
+                else
+                {
+                    newDial = dial + rotations;
+                    if (newDial >= 100)
+                    {
+                        newDial -= 100;
+
+                        if (dial != 0 && newDial != 0)
+                        {
+                            numZeroes++;
+                        }
+                    }
+                }
+
+                if (newDial == 0)
+                {
+                    numZeroes++;
+                }
+
+                dial = newDial;
+            }
+
+            return numZeroes.ToString();
         }
     }
 }
