@@ -66,5 +66,11 @@ Part 1: This one was easy. Just load the input into a two dimensional array, and
 
 
 
+Part 2: I was dreading part 2 given how easy part 1 was, but this one was also straightforward. Just iterated on the approach I took to Part 1, store the results
+
+of removing each round's worth of rolls in a new array, keep going until I can't remove any more.
+
+
+
 
 

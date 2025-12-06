@@ -42,7 +42,60 @@ namespace AdventOfCode2025.Solutions
 
         public string SolvePartTwo(bool test)
         {
-            throw new NotImplementedException();
+            char[,] grid = GetGrid(test);
+
+            int numRows = grid.GetLength(0);
+            int numCols = grid.GetLength(1);
+
+            int numRemoved = 0;
+
+            while (true)
+            {
+                char[,] next = new char[numRows, numCols];
+                int numReachable = 0;
+
+                for (int i = 0; i < numRows; i++)
+                {
+                    for (int j = 0; j < numCols; j++)
+                    {
+                        if (grid[i, j] == '@')
+                        {
+                            int numRolls = 0;
+                            foreach ((int x, int y) in GetNeighbors(i, j, numRows, numCols))
+                            {
+                                if (grid[x, y] == '@')
+                                {
+                                    numRolls++;
+                                }
+                            }
+
+                            if (numRolls < 4)
+                            {
+                                next[i, j] = '.';
+                                numReachable++;
+                            }
+                            else
+                            {
+                                next[i, j] = '@';
+                            }
+                        }
+                        else
+                        {
+                            next[i, j] = '.';
+                        }
+                    }
+                }
+
+                if (numReachable == 0)
+                {
+                    break;
+                }
+
+                numRemoved += numReachable;
+                grid = next;
+            }
+
+            return numRemoved.ToString();
         }
 
         private static IEnumerable<(int, int)> GetNeighbors(int i, int j, int numRows, int numCols)
