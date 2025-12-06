@@ -58,5 +58,13 @@ decrement m, rinse, lather, repeat. Code ran in 46 ms.
 
 
 
+Dec 4:
+
+
+
+Part 1: This one was easy. Just load the input into a two dimensional array, and check the neighbors of each square that contains a roll.
+
+
+
 
 

@@ -5,7 +5,7 @@ using Adventofcode2025.Utilities;
 bool test = false;
 
 var watch = new Stopwatch();
-for (int i = 1; i <= 3; i++)
+for (int i = 1; i <= 4; i++)
 {
     IPuzzleSolver puzzleSolver = PuzzleSolverFactory.GetPuzzleSolver(i);
     Console.WriteLine("===========================================================================");
