@@ -1,4 +1,5 @@
-﻿using Adventofcode2025.Utilities;
+﻿using System.Text;
+using Adventofcode2025.Utilities;
 
 namespace AdventOfCode2025.Solutions
 {
@@ -6,40 +7,46 @@ namespace AdventOfCode2025.Solutions
     {
         public string SolvePartOne(bool test)
         {
+            return Solve(test, 2);
+        }
+
+        public string SolvePartTwo(bool test)
+        {
+            return Solve(test, 12);
+        }
+
+        private static string Solve(bool test, int n)
+        {
             long totalJoltage = 0;
 
             foreach (string line in PuzzleReader.GetPuzzleInput(3, test))
             {
-                totalJoltage += FindMaxJotage(line);
+                totalJoltage += FindMaxJotage(line, n);
             }
 
             return totalJoltage.ToString();
         }
 
-        public string SolvePartTwo(bool test)
+        private static long FindMaxJotage(string bank, int n)
         {
-            throw new NotImplementedException();
-        }
-
-        private static long FindMaxJotage(string bank)
-        {
-            int l = bank.Length;
-
-            long max = Int64.MinValue;
-
-            for (int i = 0; i < l; i++)
+            int index = 0;
+            var sb = new StringBuilder();
+            int m = n;
+            for (int i = 0; i < n; i++)
             {
-                for (int j = i + 1; j < l; j++)
+                if (index + m > bank.Length)
                 {
-                    long val = Int64.Parse($"{bank[i]}{bank[j]}");
-                    if (val > max)
-                    {
-                        max = val;
-                    }
+                    sb.Append(bank.Substring(index));
+                    break;
                 }
+                
+                int max = bank.Substring(index, bank.Length - m - index + 1).Select(s => Int32.Parse(s.ToString())).Max();
+                index = bank.IndexOf(max.ToString(), index) + 1;
+                sb.Append(max);
+                m--;
             }
 
-            return max;
+            return Int64.Parse(sb.ToString());
         }
     }
 }

@@ -48,5 +48,15 @@ Part 1: This one was easy. No notes required.
 
 
 
+Part 2: Ah, the infamous "my initial solution for Part 1 did not scale." I tried going through all possible combinations of m indices out of n possible values
+
+but then I realized how huge n choose m was in this case. Then I realized a greedy solution works here. Starting at index i, find the sequence of m numbers
+
+that generates the largest number. If there are only m values left, just return that. Otherwise find the largest digit starting at index i, update index i, 
+
+decrement m, rinse, lather, repeat. Code ran in 46 ms.
+
+
+
 
 
