@@ -30,5 +30,15 @@ need to figure out the min and max range of numbers with length half of the rele
 
 
 
+Part 2: Pretty straightforward after solving Part 1. My solution to part 1, which found all duplicates in each range that could be constructed by
+
+two copies of numbers each half the length of the original number, could be generalized to any n from 2 to the length of the number. I just needed to 
+
+be careful not to double count. For example, in the range 222220-222224, 222222 would both be found with n = 2 ("222" + "222") and n = 3 ("22" + "22" + "22").
+
+So I added a HashSet to keep track of which invalid Ids my algorithm had already found.
+
+
+
 
 
