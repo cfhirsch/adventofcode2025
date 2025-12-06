@@ -72,5 +72,13 @@ of removing each round's worth of rolls in a new array, keep going until I can't
 
 
 
+Dec 5:
+
+
+
+Part 1: Easy, although I had to update to use longs instead of ints when I looked at actual puzzle input.
+
+
+
 
 
