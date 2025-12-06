@@ -40,5 +40,13 @@ So I added a HashSet to keep track of which invalid Ids my algorithm had already
 
 
 
+Dec 3:
+
+
+
+Part 1: This one was easy. No notes required.
+
+
+
 
 
