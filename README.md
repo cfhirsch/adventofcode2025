@@ -94,5 +94,9 @@ Part 1: Straightforward - parse the puzzle input, follow the rules.
 
 
 
+Part 2: Also straightforward, although a little more involved to follow the rules.
+
+
+
 
 
