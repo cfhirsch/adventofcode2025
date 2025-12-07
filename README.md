@@ -80,5 +80,11 @@ Part 1: Easy, although I had to update to use longs instead of ints when I looke
 
 
 
+Part 2: Ugh, interval merging problem. I tried using an algorithm that I found online, and it worked for the test input, but not for my puzzle input.
+
+I have no idea why. I ended up cribbing from https://aoc.csokavar.hu/2025/5/.
+
+
+
 
 
