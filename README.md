@@ -86,5 +86,13 @@ I have no idea why. I ended up cribbing from https://aoc.csokavar.hu/2025/5/.
 
 
 
+Dec 6:
+
+
+
+Part 1: Straightforward - parse the puzzle input, follow the rules.
+
+
+
 
 
