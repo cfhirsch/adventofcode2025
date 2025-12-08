@@ -98,5 +98,15 @@ Part 2: Also straightforward, although a little more involved to follow the rule
 
 
 
+Dec 7:
+
+
+
+Part 1: Not too difficult, but I had a late night last night and brain is not working at 100% :). You simply need to count the number of splitters that get 
+
+hit by a beam.
+
+
+
 
 
