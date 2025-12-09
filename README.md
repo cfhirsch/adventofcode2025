@@ -114,5 +114,23 @@ I use a recursive algorithm with memoization to quickly add up all the possible 
 
 
 
+Dec 8:
+
+
+
+Part 1: Not that difficult. I generated a dictionary where the keys were tuples of 3D points, and the values were the distance between them, then sorted by distance.
+
+I also maintained a list of circuits, where initially each box is in its own dedicated circuit. I loop through the first n keys in the dictionary, and find the circuit
+
+that currently contains source and target boxes. If they are not the same circuit, I append the second to the first and remove the second from the list of circuits.
+
+
+
+Part 2: Also straightforward. I just needed to iterate in my loop until the number of circuits equaled one. I did have to be careful when calculating the product, as
+
+the result is a long and I was multiplying two ints.
+
+
+
 
 
