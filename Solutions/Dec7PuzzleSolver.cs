@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Adventofcode2025.Utilities;
+﻿using Adventofcode2025.Utilities;
 
 namespace AdventOfCode2025.Solutions
 {
@@ -7,145 +6,12 @@ namespace AdventOfCode2025.Solutions
     {
         public string SolvePartOne(bool test)
         {
-            (int, int) startPos = (0, 0);
-            var splitters = new HashSet<(int, int)>();
-            int splitCount = 0;
-
-            var lines = PuzzleReader.GetPuzzleInput(7, test).ToList();
-
-            int numRows = lines.Count;
-            int numCols = lines[0].Length;
-
-            for (int i = 0; i < numRows; i++)
-            {
-                for (int j = 0; j < numCols; j++)
-                {
-                    if (lines[i][j] == 'S')
-                    {
-                        startPos = (i, j);
-                    }
-
-                    if (lines[i][j] == '^')
-                    {
-                        splitters.Add((i, j));
-                    }
-                }
-            }
-
-            var queue = new Queue<(int, int)>();
-            queue.Enqueue(startPos);
-
-            var visited = new HashSet<(int, int)>();
-
-            int currX = 0;
-
-            if (test)
-            {
-                Print(startPos, splitters, visited, numRows, numCols);
-            }
-
-            while (queue.Count > 0)
-            {
-                (int x, int y) = queue.Dequeue();
-
-                (int, int) next = (x + 1, y);
-
-                if (next.Item1 < numRows)
-                {
-                    if (splitters.Contains(next))
-                    {
-                        if (!visited.Contains((x + 1, y - 1)))
-                        {
-                            queue.Enqueue((x + 1, y - 1));
-                            visited.Add((x + 1, y - 1));
-                        }
-
-                        if (!visited.Contains((x + 1, y + 1)))
-                        {
-                            queue.Enqueue((x + 1, y + 1));
-                            visited.Add((x + 1, y + 1));
-                        }
-
-                        splitCount++;
-                    }
-                    else
-                    {
-                        if (!visited.Contains((x + 1, y)))
-                        {
-                            queue.Enqueue((x + 1, y));
-                            visited.Add((x + 1, y));
-                        }
-                    }
-                }
-
-                //Print(startPos, splitters, visited, numRows, numCols);
-            }
-
-            return splitCount.ToString();
+            return Solve(test, isPartTwo: false);
         }
 
         public string SolvePartTwo(bool test)
-        {        
-            (int, int) startPos = (0, 0);
-            var splitters = new HashSet<(int, int)>();
-            int splitCount = 0;
-
-            var lines = PuzzleReader.GetPuzzleInput(7, test).ToList();
-
-            int numRows = lines.Count;
-            int numCols = lines[0].Length;
-
-            for (int i = 0; i < numRows; i++)
-            {
-                for (int j = 0; j < numCols; j++)
-                {
-                    if (lines[i][j] == 'S')
-                    {
-                        startPos = (i, j);
-                    }
-
-                    if (lines[i][j] == '^')
-                    {
-                        splitters.Add((i, j));
-                    }
-                }
-            }
-
-            var queue = new Queue<Node>();
-
-            var startNode = new Node { Location = startPos, Children = new List<Node>() };
-            queue.Enqueue(startNode);
-
-            var visited = new HashSet<Node>();
-            
-            while (queue.Count > 0)
-            {
-                Node current = queue.Dequeue();
-
-                (int x, int y) = current.Location;
-
-                (int, int) next = (x + 1, y);
-
-                if (next.Item1 < numRows)
-                {
-                    if (splitters.Contains(next))
-                    {
-                        AddChild((x + 1, y - 1), visited, queue, current);
-                        AddChild((x + 1, y + 1), visited, queue, current);
-                        
-                        splitCount++;
-                    }
-                    else
-                    {
-                        AddChild((x + 1, y), visited, queue, current);
-                    }
-                }
-            }
-
-            var memoized = new Dictionary<Node, long>();
-            long numPaths = FindPaths(startNode, numRows - 1, memoized);
-
-            return numPaths.ToString();
+        {
+            return Solve(test, isPartTwo: true);
         }
 
         private static string Solve(bool test, bool isPartTwo)
@@ -214,7 +80,7 @@ namespace AdventOfCode2025.Solutions
                return numPaths.ToString();
             }
 
-            return splitCount;
+            return splitCount.ToString();
         }
 
         private static void AddChild((int, int) nextLoc, HashSet<Node> visited, Queue<Node> queue, Node current)
@@ -252,40 +118,7 @@ namespace AdventOfCode2025.Solutions
 
             return sum;    
         }
-
-        private static void Print(
-            (int, int) startPos, 
-            HashSet<(int, int)> splitters, 
-            HashSet<(int, int)> visited,
-            int numRows,
-            int numCols)
-        {
-            for (int i = 0; i < numRows; i++)
-            {
-                for (int j = 0; j < numCols; j++)
-                {
-                    if (startPos == (i, j))
-                    {
-                        Console.Write('S');
-                    }
-                    else if (splitters.Contains((i, j)))
-                    {
-                        Console.Write('^');
-                    }
-                    else if (visited.Contains((i, j)))
-                    {
-                        Console.Write('|');
-                    }
-                    else
-                    {
-                        Console.Write('.');
-                    }
-                }
-
-                Console.WriteLine();
-            }
-        }
-
+        
         private class Node : IEquatable<Node>
         {
             public (int, int) Location;

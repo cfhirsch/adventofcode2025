@@ -108,5 +108,11 @@ hit by a beam.
 
 
 
+Part 2: Needed to be more rested before I could figure this one out. This time, as I'm walking through the possible beam paths, I build up a tree. Then
+
+I use a recursive algorithm with memoization to quickly add up all the possible paths from the root to a leaf node.
+
+
+
 
 
