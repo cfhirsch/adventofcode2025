@@ -132,5 +132,15 @@ the result is a long and I was multiplying two ints.
 
 
 
+Dec 9:
+
+
+
+Part 1: Easy. Wrote a method to calculate rectangle area (being sure to handle the corner cases where both corners are on the same row or same column), then loop
+
+through all possible pairs of distinct tiles to find the max.
+
+
+
 
 
