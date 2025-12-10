@@ -140,7 +140,8 @@ Part 1: Easy. Wrote a method to calculate rectangle area (being sure to handle t
 
 through all possible pairs of distinct tiles to find the max.
 
-
+Part 2: Welp, geometry is my kryptonite. I ended up asking CoPilot to write an algorithm that, given a integer valued list of segment endpoints for a polygon, and the corners of a rectangle, determines whether rectangle is contained in the polygon (where
+it's OK for the border of the rectangle to overlap with the border of the polygon).
 
 
 
