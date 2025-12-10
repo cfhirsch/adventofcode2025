@@ -6,6 +6,16 @@ namespace AdventOfCode2025.Solutions
     {
         public string SolvePartOne(bool test)
         {
+            return Solve(test, isPartTwo: false);
+        }
+
+        public string SolvePartTwo(bool test)
+        {
+            return Solve(test, isPartTwo: true);
+        }
+
+        private static string Solve(bool test, bool isPartTwo)
+        {
             (int, int) startPos = (0, 0);
             var splitters = new HashSet<(int, int)>();
             int splitCount = 0;
@@ -31,21 +41,18 @@ namespace AdventOfCode2025.Solutions
                 }
             }
 
-            var queue = new Queue<(int, int)>();
-            queue.Enqueue(startPos);
+            var queue = new Queue<Node>();
 
-            var visited = new HashSet<(int, int)>();
+            var startNode = new Node { Location = startPos, Children = new List<Node>() };
+            queue.Enqueue(startNode);
 
-            int currX = 0;
-
-            if (test)
-            {
-                Print(startPos, splitters, visited, numRows, numCols);
-            }
+            var visited = new HashSet<Node>();
 
             while (queue.Count > 0)
             {
-                (int x, int y) = queue.Dequeue();
+                Node current = queue.Dequeue();
+
+                (int x, int y) = current.Location;
 
                 (int, int) next = (x + 1, y);
 
@@ -53,71 +60,79 @@ namespace AdventOfCode2025.Solutions
                 {
                     if (splitters.Contains(next))
                     {
-                        if (!visited.Contains((x + 1, y - 1)))
-                        {
-                            queue.Enqueue((x + 1, y - 1));
-                            visited.Add((x + 1, y - 1));
-                        }
-
-                        if (!visited.Contains((x + 1, y + 1)))
-                        {
-                            queue.Enqueue((x + 1, y + 1));
-                            visited.Add((x + 1, y + 1));
-                        }
+                        AddChild((x + 1, y - 1), visited, queue, current);
+                        AddChild((x + 1, y + 1), visited, queue, current);
 
                         splitCount++;
                     }
                     else
                     {
-                        if (!visited.Contains((x + 1, y)))
-                        {
-                            queue.Enqueue((x + 1, y));
-                            visited.Add((x + 1, y));
-                        }
+                        AddChild((x + 1, y), visited, queue, current);
                     }
                 }
+            }
 
-                //Print(startPos, splitters, visited, numRows, numCols);
+            if (isPartTwo)
+            {
+               var memoized = new Dictionary<Node, long>();
+               long numPaths = FindPaths(startNode, numRows - 1, memoized);
+
+               return numPaths.ToString();
             }
 
             return splitCount.ToString();
         }
 
-        public string SolvePartTwo(bool test)
+        private static void AddChild((int, int) nextLoc, HashSet<Node> visited, Queue<Node> queue, Node current)
         {
-            throw new NotImplementedException();
+            Node nextNode = visited.FirstOrDefault(n => n.Location == nextLoc);
+            if (nextNode == null)
+            {
+                nextNode = new Node { Location = nextLoc, Children = new List<Node>() };
+                queue.Enqueue(nextNode);
+                visited.Add(nextNode);
+            }
+
+            current.Children.Add(nextNode);
         }
 
-        private static void Print(
-            (int, int) startPos, 
-            HashSet<(int, int)> splitters, 
-            HashSet<(int, int)> visited,
-            int numRows,
-            int numCols)
+        private static long FindPaths(Node node, int maxX, Dictionary<Node, long> memoized)
         {
-            for (int i = 0; i < numRows; i++)
+            if (node.Location.Item1 == maxX)
             {
-                for (int j = 0; j < numCols; j++)
+                return 1;
+            }
+
+            if (memoized.ContainsKey(node))
+            {
+                return memoized[node];
+            }
+
+            long sum = 0;
+            foreach (Node child in node.Children)
+            {
+                sum += FindPaths(child, maxX, memoized);
+            }
+
+            memoized[node] = sum;
+
+            return sum;    
+        }
+        
+        private class Node : IEquatable<Node>
+        {
+            public (int, int) Location;
+
+            public List<Node> Children;
+
+            public bool Equals(Node? other)
+            {
+                if (other == null)
                 {
-                    if (startPos == (i, j))
-                    {
-                        Console.Write('S');
-                    }
-                    else if (splitters.Contains((i, j)))
-                    {
-                        Console.Write('^');
-                    }
-                    else if (visited.Contains((i, j)))
-                    {
-                        Console.Write('|');
-                    }
-                    else
-                    {
-                        Console.Write('.');
-                    }
+                    return false;
                 }
 
-                Console.WriteLine();
+                return (this.Location == other.Location);
             }
         }
     }
