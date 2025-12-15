@@ -5,9 +5,6 @@ namespace AdventOfCode2025.Solutions
 {
     internal class Dec10PuzzleSolver : IPuzzleSolver
     {
-        private static Regex lightreg = new Regex(@"\[([\.#]\])", RegexOptions.Compiled);
-        private static Regex buttonreg = new Regex(@"\((.+)\)", RegexOptions.Compiled);
-
         public string SolvePartOne(bool test)
         {
             //[.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
@@ -15,25 +12,30 @@ namespace AdventOfCode2025.Solutions
             var machines = new List<FactoryMachine>();
             foreach (string line in PuzzleReader.GetPuzzleInput(10, test))
             {
+                int pos = 0;
                 var machine = new FactoryMachine();
-
-                Match match = lightreg.Match(line);
-
-                machine.Lights = match.Value;
-                
                 machine.Buttons = new List<List<int>>();
-                MatchCollection matchColl = buttonreg.Matches(line);
-                foreach (Match m in matchColl)
-                {
-                    var toggles = new List<int>();
-                    string[] vals = m.Value.Split(',');
-                    foreach (string val in vals)
-                    {
-                        toggles.Add(int.Parse(val));
-                    }
 
-                    machine.Buttons.Add(toggles);
+                while (pos < line.Length)
+                {
+                    if (line[pos] == '[')
+                    {
+                        machine.Lights = line.Substring(pos + 1, line.IndexOf(']') - 1);
+                        pos = line.IndexOf(']') + 1;
+                    }
+                    else if (line[pos] == '(')
+                    {
+                        string buttonStr = line.Substring(pos + 1, line.IndexOf(')', pos) - pos - 1);
+                        machine.Buttons.Add(new List<int>(buttonStr.Split(',').Select(s => Int32.Parse(s))));
+                        pos = line.IndexOf(')', pos) + 1;
+                    }
+                    else
+                    {
+                        pos++;
+                    }
                 }
+
+                machines.Add(machine);
             }
 
             long sum = 0;
@@ -56,14 +58,14 @@ namespace AdventOfCode2025.Solutions
                         break;
                     }
 
-                    visited.Add(startState);
+                    visited.Add(state);
 
                     foreach (List<int> button in machine.Buttons)
                     {
                         string nextState = GetNextState(state, button);
                         if (!visited.Contains(nextState))
                         {
-                            queue.Enqueue((nextState, numPresses++));
+                            queue.Enqueue((nextState, numPresses + 1));
                         }
                     }
                 }

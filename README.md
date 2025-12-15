@@ -143,5 +143,10 @@ through all possible pairs of distinct tiles to find the max.
 Part 2: Welp, geometry is my kryptonite. I ended up asking CoPilot to write an algorithm that, given a integer valued list of segment endpoints for a polygon, and the corners of a rectangle, determines whether rectangle is contained in the polygon (where
 it's OK for the border of the rectangle to overlap with the border of the polygon).
 
+Dec 10:
+
+Part 1: I started trying to parse out the input using regular expressions and ended up using a simpler string parsing approach to deserialize the machines. Then I did breadth-first search to find the mininal number of button presses for each machine. My
+solution took almost 10 seconds so there must be a faster approach than the one I used. I did get the right answer, though.
+
 
 

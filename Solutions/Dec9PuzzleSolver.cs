@@ -1,5 +1,4 @@
 ﻿using Adventofcode2025.Utilities;
-using Geometry;
 
 namespace AdventOfCode2025.Solutions
 {
