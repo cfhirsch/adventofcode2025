@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Adventofcode2025.Utilities;
+﻿using Adventofcode2025.Utilities;
 
 namespace AdventOfCode2025.Solutions
 {
@@ -7,8 +6,33 @@ namespace AdventOfCode2025.Solutions
     {
         public string SolvePartOne(bool test)
         {
-            //[.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
+            List<FactoryMachine> machines = GetMachines(test);
+            long sum = 0;
 
+            foreach (FactoryMachine machine in machines)
+            {
+                string startState = new string('.', machine.Lights.Length);
+
+                int presses = MinButtonPresses(
+                    startState,
+                    machine.Lights,
+                    machine.Buttons);
+
+                sum += presses;
+            }
+
+            return sum.ToString();
+
+        }
+
+        public string SolvePartTwo(bool test)
+        {
+            throw new NotImplementedException();
+        }
+
+       
+        private static List<FactoryMachine> GetMachines(bool test)
+        {
             var machines = new List<FactoryMachine>();
             foreach (string line in PuzzleReader.GetPuzzleInput(10, test))
             {
@@ -29,6 +53,11 @@ namespace AdventOfCode2025.Solutions
                         machine.Buttons.Add(new List<int>(buttonStr.Split(',').Select(s => Int32.Parse(s))));
                         pos = line.IndexOf(')', pos) + 1;
                     }
+                    else if (line[pos] == '{')
+                    {
+                        machine.Joltages = line.Substring(pos + 1, line.IndexOf('}') - pos - 1);
+                        break;
+                    }
                     else
                     {
                         pos++;
@@ -38,47 +67,46 @@ namespace AdventOfCode2025.Solutions
                 machines.Add(machine);
             }
 
-            long sum = 0;
-            foreach (FactoryMachine machine in machines)
+            return machines;
+        }
+
+        /*
+         * Can I build up a dictionary memoized[state] of minimum button presses from state to target.
+         * memoized[target] = 0
+         * memoized[neighbor] = 1 for every neighbor of target
+         * 
+         */
+        private static int MinButtonPresses(
+            string state, 
+            string target, 
+            List<List<int>> buttons)
+        {
+            var distances = new Dictionary<string, int>();
+            distances[target] = 0;
+            int dist = 0;
+
+            while (true)
             {
-                var queue = new Queue<(string, int)>();
-
-                string startState = new string('.', machine.Lights.Length);
-                queue.Enqueue((startState, 0));
-                var visited = new HashSet<string>();
-                long presses = 0;
-
-                while (queue.Count > 0)
+                IEnumerable<string> keys = distances.Where(kvp => kvp.Value == dist).Select(kvp => kvp.Key).ToList();
+                foreach (string key in keys)
                 {
-                    (string state, int numPresses) = queue.Dequeue();
-
-                    if (state == machine.Lights)
+                    foreach (List<int> button in buttons)
                     {
-                        presses = numPresses;
-                        break;
-                    }
-
-                    visited.Add(state);
-
-                    foreach (List<int> button in machine.Buttons)
-                    {
-                        string nextState = GetNextState(state, button);
-                        if (!visited.Contains(nextState))
+                        string nextState = GetNextState(key, button);
+                        if (!distances.ContainsKey(nextState))
                         {
-                            queue.Enqueue((nextState, numPresses + 1));
+                            distances[nextState] = dist + 1;
+                        }
+
+                        if (nextState == state)
+                        {
+                            return distances[nextState];
                         }
                     }
                 }
 
-                sum += presses;
+                dist++;
             }
-
-            return sum.ToString();
-        }
-
-        public string SolvePartTwo(bool test)
-        {
-            throw new NotImplementedException();
         }
 
         private static string GetNextState(string state, List<int> button)
@@ -98,6 +126,8 @@ namespace AdventOfCode2025.Solutions
             public string Lights { get; set; }
 
             public List<List<int>> Buttons { get; set; }
+
+            public string Joltages { get; set; }
         }
     }
 }

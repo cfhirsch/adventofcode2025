@@ -148,5 +148,9 @@ Dec 10:
 Part 1: I started trying to parse out the input using regular expressions and ended up using a simpler string parsing approach to deserialize the machines. Then I did breadth-first search to find the mininal number of button presses for each machine. My
 solution took almost 10 seconds so there must be a faster approach than the one I used. I did get the right answer, though.
 
+UPDATE: In attempting to solve part 2, I changed my approach to a backwards search from the target state. Starting at target,
+how many states are one button press away, then use those states to find the states that are two button presses away, etc.
+until I find the start state. Sped up part 1, still waaayyyyy too slow for part 2. :).
+
 
 
