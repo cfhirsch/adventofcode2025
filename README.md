@@ -152,5 +152,7 @@ UPDATE: In attempting to solve part 2, I changed my approach to a backwards sear
 how many states are one button press away, then use those states to find the states that are two button presses away, etc.
 until I find the start state. Sped up part 1, still waaayyyyy too slow for part 2. :).
 
-
+Part 2: First time I've ever added a NuGet package dependency to solve an Advent Of Code problem lol. I finally started looking
+at this as an integer-valued linear programming problem. I asked CoPilot and it gave me a C# implementation to solve this problem type and the solution it gaves me uses Google.OrTools. I then transformed each machine into an instance of this problem
+and got the right answer in 2.5 seconds. Not super great but not super bad either. 
 
