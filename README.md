@@ -153,7 +153,7 @@ how many states are one button press away, then use those states to find the sta
 until I find the start state. Sped up part 1, still waaayyyyy too slow for part 2. :).
 
 Part 2: First time I've ever added a NuGet package dependency to solve an Advent Of Code problem lol. I finally started looking
-at this as an integer-valued linear programming problem. I asked CoPilot and it gave me a C# implementation to solve this problem type and the solution it gaves me uses Google.OrTools. I then transformed each machine into an instance of this problem
+at this as an integer-valued linear programming problem. I asked CoPilot and it gave me a C# implementation to solve this problem type and the solution it gave me uses Google.OrTools. I then transformed each machine into an instance of this problem
 and got the right answer in 2.5 seconds. Not super great but not super bad either.
 
 Dec 11:
@@ -164,8 +164,10 @@ Part 2: Not so easy :). One of those classic Advent of Code problems where the n
 of paths from start to end that not pass between any device in except:
 
 C(s, t, except) = 1
+
 C(out, t, except) = 1 if t = "out", 0 otherwise
-C(s, t, except) = Sum(o in outputs(s), C(output, t, except))
+
+C(s, t, except) = Sum(o in outputs(s), C(o, t, except))
 
 I added in memoization - not sure if needed but it was really fast. The answer is then:
 
