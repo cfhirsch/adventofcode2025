@@ -81,7 +81,7 @@ namespace AdventOfCode2025.Solutions
 
         public string SolvePartTwo(bool test)
         {
-            throw new NotImplementedException();
+            return "Merry Christmas!";
         }
 
         private struct Point
