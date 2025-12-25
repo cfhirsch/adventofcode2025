@@ -171,3 +171,18 @@ I added in memoization - not sure if needed but it was really fast. The answer i
 
 C(svr, dac, [fft])*C(dac, fft, [svr])*C(fft, out, [svr, dac]) + C(svc, fft, [dac])*C(fft, dac, [svr]) * C(dac, out, [svr, fft])
 
+Dec 12:
+
+Part 1: OK this was - not so satisfying. I struggled with a backtracking approach and it was quick on the first two test examples
+(where a solution exists), but then takes forever going through all possible ways to pack presents in the last example
+(where a solution does NOT exist). Adding memoization didn't help. Then I tried writing an algorithm that tries to find the 
+smallest possible packing of a set of presents, and then checking that it fits within a given bounding rectangle, but my
+algorithm wasn't finding the tightest packing and it wasn't clear to me why.
+
+Finally, on Christmas Day, I surrendered and looked at the forums. For the puzzle input, it suffices to check that the area
+under the tree is at least as large as the sum of the bounding rectangles (all 3x3) of the presents. What is really frustrating
+here is that THIS IS NOT TRUE FOR THE TEST INPUT! Specifically, this check fails for the first test example, yet it is possible
+to find a packing solution in this case. IMHO it's perfectly fine for the real puzzle input to have examples that are not 
+present in the test input - that's part of the challenge, after all, thinking through all the corner cases. It's not so fine
+for the test input to have examples that are NOT present in the real puzzle input, and that therefore you don't need to think through. It's a bit - misleading.
+
