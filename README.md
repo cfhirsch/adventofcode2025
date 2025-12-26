@@ -140,7 +140,9 @@ algorithm wasn't finding the tightest packing and it wasn't clear to me why.
 Finally, on Christmas Day, I surrendered and looked at the forums. For the puzzle input, it suffices to check that the area
 under the tree is at least as large as the sum of the bounding rectangles (all 3x3) of the presents. What is really frustrating
 here is that THIS IS NOT TRUE FOR THE TEST INPUT! Specifically, this check fails for the first test example, yet it is possible
-to find a packing solution in this case. IMHO it's perfectly fine for the real puzzle input to have examples that are not 
+to find a packing solution in this case. IMHO it's perfectly fine for the real puzzle input to have cases that are not 
 present in the test input - that's part of the challenge, after all, thinking through all the corner cases. It's not so fine
-for the test input to have examples that are NOT present in the real puzzle input, and that therefore you don't need to think through. It's a bit - misleading.
+for the test input to have cases that are NOT present in the real puzzle input, and that therefore you don't need to think through. 
+One expects your solution to be correct on the test input as a beginning. If it's not correct on the test input, but is correct
+on the actual puzzle input, it's all a bit - misleading.
 
