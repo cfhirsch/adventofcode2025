@@ -60,22 +60,18 @@ namespace AdventOfCode2025.Solutions
                 }
             }
 
-            // Let N(s,t,l) = number of paths from s to t that do not include any devices in l.
-            // N(s, s, *) = 1
-            // N(s, t, l) = sum(o in outputs(s), N(o, t, l))
+            var memozied = new Dictionary<(string, string), long>();
 
-            var memozied = new Dictionary<(string, string, string[]), long>();
+            long dac_fft = NumPaths(devices, "dac", "fft", memozied);
 
-            long dac_fft = NumPaths(devices, "dac", "fft", memozied, "svr");
-
-            long fft_dac = NumPaths(devices, "fft", "dac", memozied, "svr");
+            long fft_dac = NumPaths(devices, "fft", "dac", memozied);
             
 
-            long svr_fft = NumPaths(devices, "svr", "fft", memozied, "dac");
-            long dac_out = NumPaths(devices, "dac", "out", memozied, "svr", "fft");
+            long svr_fft = NumPaths(devices, "svr", "fft", memozied);
+            long dac_out = NumPaths(devices, "dac", "out", memozied);
 
-            long svr_dac = NumPaths(devices, "svr", "dac", memozied, "fft");
-            long fft_out = NumPaths(devices, "fft", "out", memozied, "svr", "dac");
+            long svr_dac = NumPaths(devices, "svr", "dac", memozied);
+            long fft_out = NumPaths(devices, "fft", "out", memozied);
 
             long numPaths = svr_dac * dac_fft * fft_out + svr_fft * fft_dac * dac_out;
             return numPaths.ToString();
@@ -85,8 +81,7 @@ namespace AdventOfCode2025.Solutions
             Dictionary<string, List<string>> devices, 
             string start, 
             string end,
-            Dictionary<(string, string, string[]), long> memozied,
-            params string[] except)
+            Dictionary<(string, string), long> memozied)
         {
             if (start == "out")
             {
@@ -98,18 +93,18 @@ namespace AdventOfCode2025.Solutions
                 return 1;
             }
 
-            if (memozied.ContainsKey((start, end, except)))
+            if (memozied.ContainsKey((start, end)))
             {
-                return memozied[(start, end, except)];
+                return memozied[(start, end)];
             }
 
             long sum = 0;
             foreach (string output in devices[start])
             {
-                sum += NumPaths(devices, output, end, memozied, except);
+                sum += NumPaths(devices, output, end, memozied);
             }
 
-            memozied[(start, end, except)] = sum;
+            memozied[(start, end)] = sum;
             return sum;
         }
     }
