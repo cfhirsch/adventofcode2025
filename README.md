@@ -161,9 +161,9 @@ Dec 11:
 Part 1: Easy. I parsed the puzzle input into a dictionary and used breadth first search to find all the paths.
 
 Part 2: Not so easy :). One of those classic Advent of Code problems where the naive approach I took to Part 1 just did not scale. There were waaayyyyyy too many paths between devices. I ended up constructing a function that calculates the number
-of paths from start to end that not pass between any device in except:
+of paths from start to end that do not pass through any device in except:
 
-C(s, t, except) = 1
+C(s, s, except) = 1
 
 C(out, t, except) = 1 if t = "out", 0 otherwise
 
